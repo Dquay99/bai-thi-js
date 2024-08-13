@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duong Quoc Anh</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" id="header">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Photos</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-md-5">
+                    <div id="list-product">
+                        <div class="item active">
+                            <div class="box-image">
+                                <img src="img/kiwi/kiwi-xanh-phap.jpg" alt="">
+                            </div>
+                            <div class="box-info">
+                                <div class="name">Quả Lựu</div>
+                                <div class="description">Collection of high resolution fruit photoshoot </div>
+                            </div>
+                            <div class="box-date">May 8</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-7">
+                    <div id="box-preview">
+                        <div class="box-info">
+                            <div id="name-preview">Quả Lựu</div>
+                            <div id="description-preview">Collection of high resolution fruit photoshoot</div>
+                            <div class="box-image">
+                                <img id="image-preview" src="./img/qua-luu.webp" alt="">
+                            </div>
+                            <div class="box-date"><span>Ngày đăng:</span> <span id="date-preview"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+
+            document.addEventListener('DOMContentLoaded', async (event) => {
+                console.log('DOM đã được tải và phân tích cú pháp hoàn toàn');
+                await initData()
+                    .then(() => showProducts())
+                    .then(() => {
+                        if (products.length > 0) {
+                            show(products[0].id)
+                        }
+                    });
+            });
+
+            let data = [
+                {
+                    id: 1,
+                    image: './img/qua-luu.webp',
+                    name: 'Quả Lựu',
+                    date: new Date(),
+                    description: 'Lựu hay còn gọi là thạch lựu (Danh pháp khoa học: Punica granatum) là một loài thực vật ăn quả thân gỗ nhỏ có chiều cao từ 5-8 mét. Lựu có nguồn gốc bản địa Tây Nam Á và được đem trồng tại vùng Kavkaz từ thời cổ đại. '
+                },
+                {
+                    id: 2,
+                    image: './img/qua-xoai-tuong.jpg',
+                    name: 'Quả Xoài Tượng',
+                    date: new Date(),
+                    description: 'Xoài là loại trái cây quen thuộc và được ưa chuộng . Đây là loại quả chứa nhiều chất dinh dưỡng và có lợi cho sức khỏe của chúng ta'
+                },
+                {
+                    id: 3,
+                    image: './img/qua-xoai.jpg',
+                    name: 'Quả Xoài',
+                    date: new Date(),
+                    description: 'Xoài là một loại trái cây vị ngọt thuộc chi Xoài, bao gồm rất nhiều quả cây nhiệt đới, được trồng chủ yếu như trái cây ăn được. '
+                },
+                {
+                    id: 4,
+                    image: './img/qua-oi.webp',
+                    name: 'Quả Ổi',
+                    date: new Date(),
+                    description: 'Ổi là loại trái cây có vỏ ngoài màu xanh đậm và bên trong có những hạt màu trắng vàng được bao bọc bởi một lớp thịt màu trắng đục hoặc hồng.'
+                },
+                {
+                    id: 5,
+                    image: './img/qua-man.jpg',
+                    name: 'Quả Mận',
+                    date: new Date(),
+                    description: 'Quả mận ăn tươi, ép nước, làm mứt, phơi sấy khô. Mứt mận là đặc sản vùng cao phía Bắc, cách làm mứt cũng đơn giản, mận chín mua về rửa sạch, nấu nhỏ lửa khuấy đều cho mận bớt nước, thắng đường cho vào sau, tỉ lệ bằng nhau, nấu đến khi sánh đặc lại là được.'
+                }
+            ]
+            let products = [];
+            const getDataInStore = key => {
+                return localStorage.getItem(key);
+            }
+
+            const setDataInStore = (key, data) => {
+                localStorage.setItem(key, data);
+            }
+
+            const initData = async () => {
+                if (!localStorage.getItem('data')) {
+                    setDataInStore('data', JSON.stringify(data))
+                }
+                products = JSON.parse(getDataInStore('data'));
+            }
+
+            const findProduct = id => {
+                return data.find(item => item.id === id);
+            }
+
+            const convertDateShort = date => {
+
+                const options = { month: 'short', day: 'numeric' };
+                return new Date(date).toLocaleDateString('en-US', options);
+            }
+
+            const convertDate = value => {
+
+                const date = new Date(value);
+
+
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+
+
+                return `${day}/${month}/${year}`;
+
+            }
+
+            const removeClass = (targetClass, className) => {
+                let elms = document.getElementsByClassName(targetClass);
+                for (let elm of elms) {
+                    elm.classList.remove(className);
+                }
+            }
+
+            const show = id => {
+                let product = findProduct(id);
+                document.getElementById('name-preview').innerText = product.name;
+                document.getElementById('description-preview').innerText = product.description;
+                document.getElementById('image-preview').src = product.image;
+                document.getElementById('date-preview').innerText = convertDate(product.date);
+                removeClass('item', 'active');
+                document.querySelector(`.item[data-id='${id}']`).classList.add('active')
+            }
+
+            const showProducts = () => {
+                let elmProducts = document.getElementById('list-product');
+                let content = '';
+                for (let i = 0; i < products.length; i++) {
+                    let active = i === 0 ? 'active' : '';
+                    content +=
+                        `<div class="item ${active}" onclick="show(${products[i].id})" data-id="${products[i].id}">
+                <div class="box-image">
+                    <img src="${products[i].image}" alt="">
+                </div>
+                <div class="box-info">
+                    <div class="name">${products[i].name}</div>
+                    <div class="description">${products[i].description}</div>
+                </div>
+                <div class="box-date">${convertDateShort(products[i].date)}</div>
+            </div>`
+                }
+                elmProducts.innerHTML = content;
+            }
+
+
+        </script>
+
+
+</body>
+
+</html>
